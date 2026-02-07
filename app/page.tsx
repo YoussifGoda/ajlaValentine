@@ -1,65 +1,62 @@
-import Image from "next/image";
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Home() {
+  const router = useRouter();
+  const [angry, setAngry] = useState(false);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <div
+      className={`relative min-h-screen overflow-hidden px-6 py-12 transition-colors duration-500 ${
+        angry
+          ? "bg-red-600"
+          : "bg-[radial-gradient(circle_at_top,_#ffe4ef,_#fff7fb_60%)]"
+      }`}
+    >
+      <div
+        className={`mx-auto flex min-h-[calc(100vh-6rem)] max-w-3xl flex-col items-center justify-center gap-10 text-center ${
+          angry ? "animate-[shake_0.35s_ease-in-out_3]" : ""
+        }`}
+      >
+        <div className="absolute left-6 top-10 h-28 w-28 rounded-full bg-pink-200/60 blur-2xl" />
+        <div className="absolute bottom-16 right-8 h-36 w-36 rounded-full bg-rose-200/70 blur-3xl" />
+
+        <h1
+          className={`text-4xl font-semibold tracking-tight sm:text-5xl ${
+            angry ? "text-white" : "text-rose-900"
+          }`}
+        >
+          {angry ? "GET OUT!! 😡" : "Are you Ajla?"}
+        </h1>
+
+        {!angry && (
+          <div className="flex w-full max-w-sm flex-col gap-4 sm:flex-row sm:justify-center">
+            <button
+              className="w-full rounded-full bg-rose-500 px-8 py-4 text-xl font-semibold text-white shadow-lg shadow-rose-200 transition-transform duration-200 hover:-translate-y-1"
+              onClick={() => router.push("/continue")}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              Yes
+            </button>
+            <button
+              className="w-full rounded-full border-2 border-rose-300 bg-white/80 px-8 py-4 text-xl font-semibold text-rose-700 shadow-sm transition-colors duration-200 hover:bg-rose-50"
+              onClick={() => setAngry(true)}
             >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+              No
+            </button>
+          </div>
+        )}
+
+        {angry && (
+          <button
+            className="rounded-full border-2 border-white/60 bg-white/10 px-8 py-3 text-lg font-semibold text-white transition-colors duration-200 hover:bg-white/20"
+            onClick={() => setAngry(false)}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+            Get back
+          </button>
+        )}
+      </div>
     </div>
   );
 }
